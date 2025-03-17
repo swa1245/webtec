@@ -1,11 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind CSS */
+@import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -29,7 +32,6 @@ a:hover {
 }
 
 body {
-  margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
@@ -76,27 +78,103 @@ button:focus-visible {
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-feature-settings: "liga" 1, "calt" 1;
   }
   
-  body {
-    @apply m-0 min-h-screen text-gray-800 bg-white;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+  }
+
+  p {
+    font-family: 'Inter', sans-serif;
   }
 }
 
 @layer components {
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-  
-  .btn {
-    @apply px-6 py-2 rounded-md transition-all duration-200 font-medium;
-  }
-  
-  .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700;
-  }
-  
   .nav-link {
-    @apply text-gray-600 hover:text-primary-600 transition-colors duration-200;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    transition: color 0.2s ease-in-out;
+  }
+  .nav-link:hover {
+    color: #2563eb;
+  }
+  
+  .text-gradient {
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #2563eb, #4f46e5, #2563eb);
+    background-size: 200% auto;
+  }
+
+  .bg-gradient-soft {
+    background-image: linear-gradient(to bottom right, white, #eff6ff);
+  }
+
+  .heading-xl {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+
+  .heading-lg {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+
+  .heading-md {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    letter-spacing: normal;
+  }
+
+  .body-lg {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    letter-spacing: 0.025em;
+  }
+
+  .body-base {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .caption {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .animate-gradient {
+    background-size: 200% auto;
+    animation: gradient 8s linear infinite;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
   }
 }
