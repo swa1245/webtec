@@ -1,24 +1,50 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Services', href: '/#services' },
-  { name: 'About', href: '/#about' },
-  { name: 'Contact', href: '/contact' },
-  { name: 'Careers', href: '/careers' }
+const menuItems = [
+  {
+    name: 'Solutions',
+    submenu: [
+      { name: 'AI & Machine Learning', href: '/solutions/ai-ml', description: 'Harness the power of artificial intelligence' },
+      { name: 'Cloud Solutions', href: '/solutions/cloud', description: 'Scale your infrastructure seamlessly' },
+      { name: 'Digital Transformation', href: '/solutions/digital', description: 'Modernize your business processes' },
+      { name: 'Cybersecurity', href: '/solutions/security', description: 'Protect your digital assets' }
+    ]
+  },
+  {
+    name: 'Industries',
+    submenu: [
+      { name: 'Banking & Finance', href: '/industries/banking', description: 'Solutions for financial institutions' },
+      { name: 'Healthcare', href: '/industries/healthcare', description: 'Digital health innovations' },
+      { name: 'Manufacturing', href: '/industries/manufacturing', description: 'Smart factory solutions' },
+      { name: 'Retail', href: '/industries/retail', description: 'Transform customer experience' }
+    ]
+  },
+  {
+    name: 'About',
+    href: '/about'
+  },
+  {
+    name: 'Careers',
+    href: '/careers'
+  },
+  {
+    name: 'Contact',
+    href: '/contact'
+  }
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -26,74 +52,105 @@ export default function Navbar() {
 
   const navbarClasses = `fixed w-full z-50 transition-all duration-300 ${
     isScrolled
-      ? 'bg-white/95 backdrop-blur-md shadow-lg py-4'
-      : 'bg-transparent py-6'
+      ? 'bg-white/95 backdrop-blur-sm shadow-lg py-3'
+      : 'bg-transparent py-5'
   }`;
-
-  const linkClasses = (isActive) =>
-    `relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-      isActive
-        ? 'text-blue-600'
-        : isScrolled 
-          ? 'text-gray-800 hover:text-blue-600'
-          : 'text-gray-700 hover:text-blue-600'
-    }`;
-
-  const logoClasses = isScrolled
-    ? 'text-gray-900'
-    : 'text-gradient';
-
-  const buttonClasses = isScrolled
-    ? 'bg-blue-600 text-white hover:bg-blue-700'
-    : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm';
 
   return (
     <nav className={navbarClasses}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link 
-            to="/"
-            className="flex items-center space-x-2"
-          >
-            <span className={`text-2xl font-bold transition-colors duration-300 ${logoClasses}`}>
+          <Link to="/" className="relative group">
+            <span className={`text-2xl font-bold transition-colors duration-300 ${
+              isScrolled ? 'text-gray-900' : 'text-white'
+            }`}>
               WebTech
             </span>
+            <motion.div
+              className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"
+              whileHover={{ width: '100%' }}
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navigation.map((item) => (
-              <Link
+          <div className="hidden lg:flex items-center space-x-1">
+            {menuItems.map((item) => (
+              <div
                 key={item.name}
-                to={item.href}
-                className={linkClasses(location.pathname === item.href)}
+                className="relative"
+                onMouseEnter={() => setActiveMenu(item.name)}
+                onMouseLeave={() => setActiveMenu(null)}
               >
-                {item.name}
-                {location.pathname === item.href && (
+                <Link
+                  to={item.href || '#'}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 relative group flex items-center ${
+                    isScrolled
+                      ? 'text-gray-700 hover:text-blue-600'
+                      : 'text-gray-100 hover:text-white'
+                  }`}
+                >
+                  {item.name}
+                  {item.submenu && (
+                    <ChevronDownIcon 
+                      className={`w-4 h-4 ml-1 transition-transform duration-200 ${
+                        activeMenu === item.name ? 'rotate-180' : ''
+                      }`}
+                    />
+                  )}
                   <motion.div
-                    layoutId="navbar-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"
-                    initial={false}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full"
+                    whileHover={{ width: '100%' }}
                   />
+                </Link>
+
+                {/* Dropdown Menu */}
+                {item.submenu && activeMenu === item.name && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden"
+                  >
+                    <div className="py-2">
+                      {item.submenu.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          to={subItem.href}
+                          className="block px-4 py-3 hover:bg-gray-50 transition-colors duration-200"
+                        >
+                          <div className="text-sm font-medium text-gray-900">{subItem.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{subItem.description}</div>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
                 )}
-              </Link>
+              </div>
             ))}
-            <button className={`ml-4 px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${buttonClasses}`}>
+
+            {/* CTA Button */}
+            <button 
+              className={`ml-4 px-6 py-2 text-sm font-medium rounded-full transition-all duration-300 transform hover:scale-105 ${
+                isScrolled
+                  ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  : 'bg-white text-blue-600 hover:bg-blue-50'
+              }`}
+            >
               Get Started
             </button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100/10 transition-colors duration-200"
+            className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
-              <XMarkIcon className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-gray-200'}`} />
+              <XMarkIcon className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
             ) : (
-              <Bars3Icon className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-gray-200'}`} />
+              <Bars3Icon className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
             )}
           </button>
         </div>
@@ -102,30 +159,57 @@ export default function Navbar() {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial="closed"
-              animate="open"
-              exit="closed"
-              variants={{
-                open: { opacity: 1, y: 0 },
-                closed: { opacity: 0, y: -20 }
-              }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg rounded-b-2xl mt-2 py-4 px-4"
+              className="lg:hidden"
             >
-              <div className="flex flex-col space-y-3">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={`${linkClasses(location.pathname === item.href)} block`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
+              <div className="bg-white shadow-xl rounded-b-xl mt-2 py-4">
+                {menuItems.map((item) => (
+                  <div key={item.name} className="px-4">
+                    <div
+                      className="py-2 text-gray-900 font-medium cursor-pointer"
+                      onClick={() => setActiveMenu(activeMenu === item.name ? null : item.name)}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span>{item.name}</span>
+                        {item.submenu && (
+                          <ChevronDownIcon 
+                            className={`w-4 h-4 transform transition-transform duration-200 ${
+                              activeMenu === item.name ? 'rotate-180' : ''
+                            }`}
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Mobile Submenu */}
+                    {item.submenu && activeMenu === item.name && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="pl-4 pb-2"
+                      >
+                        {item.submenu.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            to={subItem.href}
+                            className="block py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </div>
                 ))}
-                <button className="mt-4 w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors duration-200">
-                  Get Started
-                </button>
+                <div className="px-4 mt-4">
+                  <button className="w-full px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors duration-200">
+                    Get Started
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}

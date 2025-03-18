@@ -1,134 +1,66 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
-import Footer from '../components/ui/Footer';
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
+  transition: { duration: 0.8, ease: "easeOut" }
 };
 
-const staggerContainer = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.2
-    }
+const solutions = [
+  {
+    title: "AI & Machine Learning",
+    description: "Harness the power of artificial intelligence to transform your business operations",
+    icon: "🤖",
+    color: "from-purple-500 to-indigo-600"
+  },
+  {
+    title: "Cloud Solutions",
+    description: "Scale your infrastructure with cutting-edge cloud technologies",
+    icon: "☁️",
+    color: "from-blue-500 to-cyan-600"
+  },
+  {
+    title: "Digital Transformation",
+    description: "Modernize your business with end-to-end digital solutions",
+    icon: "🔄",
+    color: "from-green-500 to-emerald-600"
+  },
+  {
+    title: "Cybersecurity",
+    description: "Protect your assets with advanced security measures",
+    icon: "🔒",
+    color: "from-red-500 to-rose-600"
   }
-};
+];
+
+const insights = [
+  {
+    title: "The Future of Work",
+    category: "Research Report",
+    image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    description: "Exploring how AI and automation will reshape the workplace of tomorrow"
+  },
+  {
+    title: "Digital Innovation Trends",
+    category: "Industry Analysis",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    description: "Key technology trends driving business transformation in 2025"
+  },
+  {
+    title: "Sustainable Tech",
+    category: "Whitepaper",
+    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    description: "How technology is enabling sustainable business practices"
+  }
+];
 
 const stats = [
-  { number: '200+', label: 'Clients Worldwide' },
-  { number: '500+', label: 'Projects Completed' },
-  { number: '98%', label: 'Client Satisfaction' },
-  { number: '15+', label: 'Years Experience' }
-];
-
-const services = [
-  {
-    title: 'Custom Software Development',
-    description: 'Tailored solutions that perfectly align with your business needs and goals.',
-    image: 'https://img.freepik.com/free-vector/programming-concept-illustration_114360-1351.jpg'
-  },
-  {
-    title: 'Cloud Solutions',
-    description: 'Scalable and secure cloud infrastructure for your growing business needs.',
-    image: 'https://img.freepik.com/free-vector/cloud-services-isometric-composition_1284-25084.jpg'
-  },
-  {
-    title: 'Digital Transformation',
-    description: 'Modernize your business with cutting-edge digital solutions and strategies.',
-    image: 'https://img.freepik.com/free-vector/digital-transformation-concept-illustration_108061-2297.jpg'
-  }
-];
-
-const technologies = [
-  'React.js', 'Node.js', 'Python', 'AWS', 'Docker', 'Kubernetes',
-  'TensorFlow', 'GraphQL', 'MongoDB', 'PostgreSQL'
-];
-
-const testimonials = [
-  {
-    name: 'Sarah Johnson',
-    role: 'CEO, TechStart Inc.',
-    content: 'Working with Webtech has been transformative for our business. Their innovative solutions and dedicated team have helped us achieve remarkable growth.',
-    image: 'https://img.freepik.com/free-photo/young-businesswoman-with-positive-attitude_1098-18644.jpg'
-  },
-  {
-    name: 'Michael Chen',
-    role: 'CTO, Innovation Labs',
-    content: 'The expertise and professionalism of the Webtech team are unmatched. They delivered our project on time and exceeded all expectations.',
-    image: 'https://img.freepik.com/free-photo/young-businessman-with-positive-attitude_1098-18643.jpg'
-  },
-  {
-    name: 'Emily Rodriguez',
-    role: 'Product Manager, Future Corp',
-    content: 'Webtech\'s attention to detail and commitment to quality have made them our go-to technology partner. Highly recommended!',
-    image: 'https://img.freepik.com/free-photo/confident-business-woman-portrait-smiling-face_53876-137693.jpg'
-  }
-];
-
-const features = [
-  {
-    title: 'Agile Development',
-    description: 'Iterative approach with continuous feedback and improvements',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    )
-  },
-  {
-    title: 'Scalable Architecture',
-    description: 'Built to grow with your business needs',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-      </svg>
-    )
-  },
-  {
-    title: 'Security First',
-    description: 'Enterprise-grade security measures built-in',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    )
-  },
-  {
-    title: '24/7 Support',
-    description: 'Round-the-clock technical assistance',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    )
-  }
-];
-
-const processSteps = [
-  {
-    number: '01',
-    title: 'Discovery',
-    description: 'We analyze your requirements and create a comprehensive project roadmap.'
-  },
-  {
-    number: '02',
-    title: 'Design',
-    description: 'Our team creates intuitive and engaging user experiences.'
-  },
-  {
-    number: '03',
-    title: 'Development',
-    description: 'We build your solution using the latest technologies and best practices.'
-  },
-  {
-    number: '04',
-    title: 'Deployment',
-    description: 'Seamless deployment and ongoing support to ensure success.'
-  }
+  { number: "500+", label: "Enterprise Clients" },
+  { number: "50+", label: "Countries" },
+  { number: "95%", label: "Client Retention" },
+  { number: "24/7", label: "Support" }
 ];
 
 export default function Home() {
@@ -139,190 +71,37 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-24 min-h-[90vh] flex items-center bg-gradient-soft overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <motion.div
-            className="absolute inset-0"
-            animate={{
-              background: [
-                "linear-gradient(to right, rgba(14,165,233,0.1), rgba(99,102,241,0.1))",
-                "linear-gradient(to right, rgba(3,105,161,0.1), rgba(79,70,229,0.1))",
-                "linear-gradient(to right, rgba(14,165,233,0.1), rgba(99,102,241,0.1))"
-              ]
-            }}
-            transition={{ duration: 5, repeat: Infinity }}
-          />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="relative min-h-[90vh] flex items-center bg-gradient-to-br from-gray-900 to-black overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        <div className="container mx-auto px-4 relative z-10 pt-20">
+          <div className="max-w-5xl mx-auto">
             <motion.div
-              initial="initial"
-              animate="animate"
-              variants={staggerContainer}
-              className="max-w-2xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
             >
-              <motion.div 
-                variants={fadeIn}
-                className="mb-6"
-              >
-                <span className="heading-md text-blue-600">Welcome to Innovation</span>
-              </motion.div>
-              <motion.h1 
-                variants={fadeIn}
-                className="heading-xl mb-6"
-              >
-                Transform Your
-                <span className="text-gradient ml-4">Digital Future</span>
-              </motion.h1>
-              <motion.p 
-                variants={fadeIn}
-                className="body-lg text-gray-600 mb-8"
-              >
-                We craft innovative digital solutions that empower businesses to thrive in the modern tech landscape.
-              </motion.p>
-              <motion.div 
-                variants={fadeIn}
-                className="flex gap-4"
-              >
-                <Button variant="primary">Start Your Journey</Button>
-                <Button variant="outline">Explore Solutions</Button>
-              </motion.div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8, type: "spring" }}
-              className="hidden lg:block"
-            >
-              <motion.img
-                src="https://img.freepik.com/free-vector/artificial-intelligence-concept-illustration_114360-7135.jpg"
-                alt="Digital Innovation"
-                className="w-full h-auto rounded-2xl shadow-2xl animate-float"
-              />
+              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                Building on
+                <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent"> Innovation</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                We help businesses transform through technology, driving innovation and sustainable growth
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Button variant="primary" className="text-lg px-8 py-4">
+                  Start Your Journey
+                </Button>
+                <Button variant="outline" className="text-lg px-8 py-4 text-white border-white hover:bg-white/10">
+                  Watch Demo
+                </Button>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
-          >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <h3 className="heading-2xl font-bold text-blue-600 mb-2">{stat.number}</h3>
-                <p className="body-md text-gray-600 tracking-wide uppercase">{stat.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="py-20 bg-gray-50">
-        <motion.div 
-          style={{ opacity, scale }}
-          className="container mx-auto px-4"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <span className="heading-md text-blue-600 font-semibold tracking-widest uppercase">Our Expertise</span>
-            <h2 className="heading-3xl font-bold text-gray-900 mt-2 mb-4">Innovative Solutions</h2>
-            <p className="body-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              Elevate your business with our comprehensive range of cutting-edge services
-            </p>
-          </motion.div>
-
-          <motion.div 
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                variants={{
-                  initial: { opacity: 0, y: 20 },
-                  animate: { opacity: 1, y: 0 }
-                }}
-                transition={{ duration: 0.5 }}
-              >
-                <Card className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                  <div className="aspect-video mb-6 overflow-hidden rounded-lg bg-blue-50">
-                    <motion.img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </div>
-                  <h3 className="heading-2xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                  <p className="body-md text-gray-600 leading-relaxed">{service.description}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Technologies Section */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <span className="heading-md text-blue-600 font-semibold tracking-widest uppercase">Tech Stack</span>
-            <h2 className="heading-3xl font-bold text-gray-900 mt-2 mb-4">Cutting-Edge Technologies</h2>
-            <p className="body-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              We leverage the latest technologies to deliver exceptional results
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-6"
-          >
-            {technologies.map((tech, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
-                className="px-6 py-3 bg-gray-50 rounded-full shadow-md hover:shadow-xl transition-all duration-300"
-              >
-                <span className="body-md font-medium text-gray-800 tracking-wide">{tech}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features Section */}
+      {/* Solutions Grid */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
@@ -331,75 +110,54 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="heading-md text-blue-600 font-semibold tracking-widest uppercase">Why Choose Us</span>
-            <h2 className="heading-3xl font-bold text-gray-900 mt-2 mb-4">Features that Set Us Apart</h2>
-            <p className="body-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              We combine innovation with reliability to deliver exceptional results
-            </p>
+            <h2 className="text-4xl font-bold mb-4">Solutions that Drive Growth</h2>
+            <p className="text-xl text-gray-600">Discover how our expertise can transform your business</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {solutions.map((solution, index) => (
               <motion.div
-                key={index}
+                key={solution.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+                className="group cursor-pointer"
               >
-                <div className="w-12 h-12 mx-auto mb-4 text-blue-600 bg-blue-100 rounded-full flex items-center justify-center">
-                  {feature.icon}
+                <div className={`p-8 rounded-2xl bg-gradient-to-br ${solution.color} transform transition-transform group-hover:scale-[1.02]`}>
+                  <div className="text-4xl mb-4">{solution.icon}</div>
+                  <h3 className="text-xl font-semibold text-white mb-3">{solution.title}</h3>
+                  <p className="text-white/90">{solution.description}</p>
                 </div>
-                <h3 className="heading-2xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="body-md text-gray-600">{feature.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* Stats Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <span className="heading-md text-blue-600 font-semibold tracking-widest uppercase">Our Process</span>
-            <h2 className="heading-3xl font-bold text-gray-900 mt-2 mb-4">How We Work</h2>
-            <p className="body-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              A streamlined approach to delivering exceptional results
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {processSteps.map((step, index) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
               <motion.div
-                key={index}
+                key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="relative"
+                className="text-center"
               >
-                <div className="text-8xl font-bold text-blue-100 absolute -top-6 left-0">
-                  {step.number}
-                </div>
-                <div className="relative z-10 pt-8">
-                  <h3 className="heading-2xl font-bold text-gray-900 mb-2">{step.title}</h3>
-                  <p className="body-md text-gray-600 leading-relaxed">{step.description}</p>
-                </div>
+                <h3 className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">{stat.number}</h3>
+                <p className="text-gray-600 font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-white overflow-hidden">
+      {/* Latest Insights */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -407,35 +165,35 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="heading-md text-blue-600 font-semibold tracking-widest uppercase">Testimonials</span>
-            <h2 className="heading-3xl font-bold text-gray-900 mt-2 mb-4">What Our Clients Say</h2>
-            <p className="body-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              Hear from businesses we've helped transform
-            </p>
+            <h2 className="text-4xl font-bold mb-4">Latest Insights</h2>
+            <p className="text-xl text-gray-600">Stay ahead with our latest research and analysis</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {insights.map((insight, index) => (
               <motion.div
-                key={index}
+                key={insight.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gray-50 p-8 rounded-2xl"
               >
-                <div className="flex items-center mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover"
-                  />
-                  <div className="ml-4">
-                    <h4 className="heading-lg font-bold text-gray-900">{testimonial.name}</h4>
-                    <p className="body-md text-gray-600">{testimonial.role}</p>
+                <Card className="h-full group hover:shadow-xl transition-all duration-300">
+                  <div className="aspect-video overflow-hidden rounded-t-lg">
+                    <motion.img
+                      src={insight.image}
+                      alt={insight.title}
+                      className="w-full h-full object-cover transform transition-transform group-hover:scale-105"
+                    />
                   </div>
-                </div>
-                <p className="body-md text-gray-600 leading-relaxed italic">"{testimonial.content}"</p>
+                  <div className="p-6">
+                    <div className="text-sm text-blue-600 font-medium mb-2">{insight.category}</div>
+                    <h3 className="text-xl font-semibold mb-3 group-hover:text-blue-600 transition-colors">
+                      {insight.title}
+                    </h3>
+                    <p className="text-gray-600">{insight.description}</p>
+                  </div>
+                </Card>
               </motion.div>
             ))}
           </div>
@@ -443,44 +201,96 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center text-white relative z-10"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="mb-8"
-            >
-              <h2 className="heading-4xl font-bold mb-4 tracking-tight">Ready to Transform?</h2>
-              <p className="body-lg opacity-90 leading-relaxed max-w-2xl mx-auto tracking-wide">
-                Join the ranks of innovative businesses that have revolutionized their digital presence
-              </p>
-            </motion.div>
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              viewport={{ once: true }}
             >
-              <Button variant="secondary" className="text-blue-600 tracking-wider">
-                Start Your Project
-              </Button>
-              <Button variant="outline" className="text-white border-white hover:bg-white/10 tracking-wider">
-                Learn More
+              <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
+              <p className="text-xl text-blue-100 mb-8">
+                Let's work together to build innovative solutions that drive your business forward
+              </p>
+              <Button variant="white" className="text-lg px-8 py-4 bg-white text-blue-600 hover:bg-blue-50">
+                Schedule a Consultation
               </Button>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <Footer />
+      <footer className="bg-gray-900 text-gray-300">
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+            {/* Company Info */}
+            <div>
+              <h3 className="text-white text-lg font-bold mb-4">WebTech</h3>
+              <p className="text-sm mb-4">
+                Empowering businesses with innovative technology solutions since 2020.
+              </p>
+              <div className="flex space-x-4">
+                {/* Social Media Icons */}
+                <a href="#" className="hover:text-white transition-colors duration-200">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+                <a href="#" className="hover:text-white transition-colors duration-200">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                  </svg>
+                </a>
+                <a href="#" className="hover:text-white transition-colors duration-200">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-white text-lg font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors duration-200">About Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Services</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Case Studies</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Blog</a></li>
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h3 className="text-white text-lg font-bold mb-4">Services</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors duration-200">AI & Machine Learning</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Cloud Solutions</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Digital Transformation</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Cybersecurity</a></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h3 className="text-white text-lg font-bold mb-4">Contact</h3>
+              <ul className="space-y-2">
+                <li>123 Tech Street</li>
+                <li>Silicon Valley, CA 94025</li>
+                <li>contact@webtech.com</li>
+                <li>+1 (555) 123-4567</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-center">
+            <p>&copy; {new Date().getFullYear()} WebTech. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

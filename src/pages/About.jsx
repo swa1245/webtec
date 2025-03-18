@@ -1,5 +1,16 @@
 import { motion } from 'framer-motion';
+import ImageSlider from '../components/ui/ImageSlider';
 import Footer from '../components/ui/Footer';
+
+const images = [
+  '/images/1.jpg',
+  '/images/2.jpg',
+  '/images/3.jpg',
+  '/images/4.jpg',
+  '/images/5.jpg',
+  '/images/6.jpg',
+  '/images/7.jpg'
+];
 
 const stats = [
   { label: 'Years of Experience', value: '10+' },
@@ -88,39 +99,57 @@ const milestones = [
 export default function About() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative pt-96 h-screen pb-20 bg-gradient-to-br from-blue-900 to-blue-800">
-        <div className="absolute inset-0 overflow-hidden">
-          <img 
-            src="https://img.freepik.com/free-photo/modern-office-building-low-angle-shot_1127-2857.jpg"
-            alt="Office Building"
-            className="w-full h-full object-cover opacity-20"
-          />
-        </div>
-        <div className="container mx-auto px-6 relative">
-          <div className="max-w-3xl mx-auto text-center text-white">
+      {/* Hero Section with Image Slider */}
+      <section className="relative h-[70vh]">
+        <ImageSlider 
+          images={images} 
+          className="w-full h-full"
+          imageClassName="brightness-50"
+        />
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="text-center text-white">
             <motion.h1 
-              className="text-4xl md:text-5xl font-bold mb-6"
+              className="text-5xl md:text-6xl font-bold mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
             >
-              About Webtech
+              About Us
             </motion.h1>
             <motion.p 
-              className="text-xl text-blue-100 mb-8"
+              className="text-xl max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Empowering businesses with innovative technology solutions since 2013
+              Building the future of digital innovation, one project at a time
             </motion.p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="text-gray-50">
-            <path fill="currentColor" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          </svg>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.h2 
+              className="text-4xl font-bold mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              Our Mission
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              At WebTech, we're committed to delivering innovative digital solutions that empower businesses to thrive in the modern world. Our team of experts combines creativity with technical excellence to transform your ideas into reality.
+            </motion.p>
+          </div>
         </div>
       </section>
 
